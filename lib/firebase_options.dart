@@ -41,19 +41,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAzIOcyyc9FWaz0AZESm0F8nnpbbNdfhMY',
-    appId: '1:141865235618:android:ebc5300dee665cfd8513fb',
-    messagingSenderId: '141865235618',
-    projectId: 'fir-learning-40d20',
-    storageBucket: 'fir-learning-40d20.firebasestorage.app',
+    apiKey: 'AIzaSyCWb9RQPzvgA0ujjxt8BzSJnbdOJ_lJ12g',
+    appId: '1:182898265279:android:931a7b374d5bf772eb4a0a',
+    messagingSenderId: '182898265279',
+    projectId: 'fir-learning-b12f3',
+    storageBucket: 'fir-learning-b12f3.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyD3CrifZ102fVdgb2K7tZi3pgq2h7Yrs8k',
-    appId: '1:141865235618:ios:a3132b1f779d9be68513fb',
-    messagingSenderId: '141865235618',
-    projectId: 'fir-learning-40d20',
-    storageBucket: 'fir-learning-40d20.firebasestorage.app',
+    apiKey: 'AIzaSyBpqFuTBHtVaTYa-_Y7VMPECpQXqjAJhgQ',
+    appId: '1:182898265279:ios:0555912e214fa606eb4a0a',
+    messagingSenderId: '182898265279',
+    projectId: 'fir-learning-b12f3',
+    storageBucket: 'fir-learning-b12f3.firebasestorage.app',
     iosBundleId: 'com.example.firebaseLearning',
   );
 
