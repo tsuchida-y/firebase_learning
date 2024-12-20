@@ -40,18 +40,30 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   String firebaseData='';//Firebaseから取得したデータを格納
+  List<String> texts = [];
+
 
 //firebaseからデータを取得する
     void _fetchFirebaseData() async{
     await FirebaseFirestore.instance.collection("posts").get().then((event) {
       for(var doc in event.docs) {
-        print("${doc.id}=>${doc.data()}");
         setState(() {
-          firebaseData += '${doc.data()}';//変数にデータを格納
+          final text = doc.data()['text'];
+          texts.add(text);
         });  
       }
     });
   }
+
+
+//firebaseにデータを追加する
+  void addFirebaseData() async{
+    await FirebaseFirestore.instance.collection("posts").add({
+      'name': 'Flutter',
+      'text': 'Hello Firebase',
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -64,21 +76,14 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'a',
-            ),
-            Text(
-              '$firebaseData',
-            ),
-          ],
+        child:ListView(
+          children:texts.map((text) => Text(text)).toList(),
         ),
+
+
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _fetchFirebaseData,
+        onPressed: addFirebaseData,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), 
