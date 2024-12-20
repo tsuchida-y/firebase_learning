@@ -39,25 +39,19 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  String firebaseData='';//Firebaseから取得したデータを格納
+
 //firebaseからデータを取得する
     void _fetchFirebaseData() async{
     await FirebaseFirestore.instance.collection("posts").get().then((event) {
       for(var doc in event.docs) {
         print("${doc.id}=>${doc.data()}");
+        setState(() {
+          firebaseData += '${doc.data()}';//変数にデータを格納
+        });  
       }
     });
   }
-// void _fetchFirebaseData() async {
-//   try {
-//     QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection("posts").get();
-//     for (var doc in querySnapshot.docs) {
-//       print("${doc.id} => ${doc.data()}");
-//     }
-//   } catch (e) {
-//     print("Error fetching data: $e");
-//   }
-// }
-
 
   @override
   Widget build(BuildContext context) {
@@ -69,13 +63,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
         title: Text(widget.title),
       ),
-      body: const Center(
+      body: Center(
 
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            const Text(
+              'a',
+            ),
             Text(
-              'You have pushed the button this many times:',
+              '$firebaseData',
             ),
           ],
         ),
