@@ -2,7 +2,7 @@ class Post{
   String id;
   String text;
   DateTime createdAt;
-  DateTime updatedAt;
+  DateTime? updatedAt;
 
   Post({
     required this.id,

@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_learning/next_page.dart';
+import 'package:firebase_learning/post.dart';
+import 'package:firebase_learning/update_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -41,7 +44,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   String firebaseData='';//Firebaseから取得したデータを格納
-  List<String> texts = [];
+  List <Post> posts = [];
 
 
 //この画面を開いたらこうするというのを定義  
@@ -62,7 +65,21 @@ class _MyHomePageState extends State<MyHomePage> {
       final docs = event.docs;
       
         setState(() {
-          texts = docs.map((doc) => doc.data()['text'].toString()).toList();
+          posts = docs.map((doc){
+            final data = doc.data();
+            final id = doc.id;
+            final text = data['text'] as String;
+            final createdAt = data['createdAt'].toDate();
+            final updatedAt = data['updatedAt']?.toDate();
+
+            return Post(
+              id:id,
+              text:text,
+              createdAt:createdAt,
+              updatedAt:updatedAt);
+            },
+            ).toList();
+            
         });  
     });
   }
@@ -82,11 +99,40 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child:ListView(
-          children:texts.map((text) => Text(text)).toList(),
+          children: posts
+          .map((post) => InkWell(
+            onTap: ()async{
+              await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => UpdatePage(post),)
+            );
+            },
+            child:Padding(
+            padding:const EdgeInsets.symmetric(
+              horizontal:16,
+              vertical:8,
+            ),
+            child:Row(
+              children: [
+              const Icon(
+                Icons.person,
+                size:48,
+                ),
+                Text(
+                  post.text,
+                  style:const TextStyle(
+                    fontSize:24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+              ),
+              )
+          )
+        ).toList(),
         ),
-
-
-      ), 
+        ),
+ 
       floatingActionButton: FloatingActionButton(
         onPressed: ()async{
           await Navigator.push(
