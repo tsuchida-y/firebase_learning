@@ -89,11 +89,14 @@ class _MyHomePageState extends State<MyHomePage> {
       ), 
       floatingActionButton: FloatingActionButton(
         onPressed: ()async{
-          Navigator.push(
+          await Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const AddPage())
           ).then((value) => _fetchFirebaseData());
+
+          await _fetchFirebaseData();
         },
+        
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), 

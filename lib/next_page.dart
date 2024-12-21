@@ -40,6 +40,7 @@ class _AddPageState extends State<AddPage> {
           ElevatedButton(
             onPressed: (){
               addFirebaseData();
+              Navigator.pop(context);
             },
             child: const Text("追加"),
           )
