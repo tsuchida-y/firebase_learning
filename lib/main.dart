@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_learning/next_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -43,26 +44,30 @@ class _MyHomePageState extends State<MyHomePage> {
   List<String> texts = [];
 
 
+//この画面を開いたらこうするというのを定義  
+  @override
+  void initState() {
+    super.initState();
+    _fetchFirebaseData();
+  }
+
+
 //firebaseからデータを取得する
-    void _fetchFirebaseData() async{
-    await FirebaseFirestore.instance.collection("posts").get().then((event) {
-      for(var doc in event.docs) {
+    Future _fetchFirebaseData() async{
+    await FirebaseFirestore.instance
+    .collection("posts")
+    .orderBy('createdAt')
+    .get()
+    .then((event) {
+      final docs = event.docs;
+      
         setState(() {
-          final text = doc.data()['text'];
-          texts.add(text);
+          texts = docs.map((doc) => doc.data()['text'].toString()).toList();
         });  
-      }
     });
   }
 
 
-//firebaseにデータを追加する
-  void addFirebaseData() async{
-    await FirebaseFirestore.instance.collection("posts").add({
-      'name': 'Flutter',
-      'text': 'Hello Firebase',
-    });
-  }
 
 
   @override
@@ -81,9 +86,14 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
 
 
-      ),
+      ), 
       floatingActionButton: FloatingActionButton(
-        onPressed: addFirebaseData,
+        onPressed: ()async{
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AddPage())
+          ).then((value) => _fetchFirebaseData());
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), 
