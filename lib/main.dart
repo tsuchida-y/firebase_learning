@@ -94,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
             MaterialPageRoute(builder: (context) => const AddPage())
           ).then((value) => _fetchFirebaseData());
 
-          await _fetchFirebaseData();
+          await _fetchFirebaseData();//画面遷移が終わったら実行
         },
         
         tooltip: 'Increment',
