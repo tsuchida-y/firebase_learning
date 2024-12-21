@@ -106,6 +106,8 @@ class _MyHomePageState extends State<MyHomePage> {
             context,
             MaterialPageRoute(builder: (context) => UpdatePage(post),)
             );
+
+            await _fetchFirebaseData();
             },
             child:Padding(
             padding:const EdgeInsets.symmetric(
