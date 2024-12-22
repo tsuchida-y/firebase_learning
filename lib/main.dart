@@ -8,9 +8,11 @@ import 'firebase_options.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+    options: DefaultFirebaseOptions.currentPlatform,//現在のプラットフォーム(androidとか)FirebaseOptionsを取得
   );
+
   runApp(const MyApp());
 }
 
@@ -21,13 +23,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Firebase',
       theme: ThemeData(
       
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Firebase Learning!!'),
     );
   }
 }
@@ -47,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List <Post> posts = [];
 
 
-//この画面を開いたらこうするというのを定義  
+//この画面を開いたらこうするというのを定義。一度だけ実行される 
   @override
   void initState() {
     super.initState();
@@ -61,24 +63,24 @@ class _MyHomePageState extends State<MyHomePage> {
     .collection("posts")
     .orderBy('createdAt')
     .get()
-    .then((event) {
-      final docs = event.docs;
+    .then((event) {//コールバック関数を渡す
+      final docs = event.docs;//取得したドキュメントのリスト
       
-        setState(() {
-          posts = docs.map((doc){
-            final data = doc.data();
+        setState(() {//画面を更新する
+          posts = docs.map((doc){//各要素に対して処理を行う。docは現在のドキュメント
+            final data = doc.data();//現在のドキュメントのデータを取得
             final id = doc.id;
             final text = data['text'] as String;
-            final createdAt = data['createdAt'].toDate();
+            final createdAt = data['createdAt'].toDate();//Timestamp型をDateTime型(日付や時間)に変換
             final updatedAt = data['updatedAt']?.toDate();
 
-            return Post(
-              id:id,
+            return Post(//取得したデータを使用し、Postオブジェクトを生成し返す
+              id:id,//左がPostクラスのフィールド、右が取得したデータ
               text:text,
               createdAt:createdAt,
-              updatedAt:updatedAt);
-            },
-            ).toList();
+              updatedAt:updatedAt
+            );},
+            ).toList();//Listに変換する
             
         });  
     });
@@ -93,14 +95,14 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
 
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,//背景色を設定
 
         title: Text(widget.title),
       ),
       body: Center(
         child:ListView(
           children: posts
-          .map((post) => InkWell(
+          .map((post) => InkWell(//タップ可能にしエフェクトをつける
             onTap: ()async{
               await Navigator.push(
             context,
@@ -108,44 +110,42 @@ class _MyHomePageState extends State<MyHomePage> {
             );
 
             await _fetchFirebaseData();
+
             },
-            child:Padding(
-            padding:const EdgeInsets.symmetric(
-              horizontal:16,
-              vertical:8,
+            child:Padding(//余白を設定
+            padding:const EdgeInsets.symmetric(//上下左右に一定の余白を設定
+              horizontal:16,//左右の余白
+              vertical:8,//上下の余白
             ),
             child:Row(
               children: [
-              const Icon(
-                Icons.person,
-                size:48,
+                const Icon(
+                  Icons.person,
+                  size:48,
                 ),
                 Text(
                   post.text,
                   style:const TextStyle(
                     fontSize:24,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.bold,//テキストの太さ
                   ),
                 ),
               ],
-              ),
-              )
+            ),)
           )
-        ).toList(),
-        ),
-        ),
+        ).toList(),),
+      ),
  
       floatingActionButton: FloatingActionButton(
         onPressed: ()async{
           await Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const AddPage())
-          ).then((value) => _fetchFirebaseData());
-
+          );
           await _fetchFirebaseData();//画面遷移が終わったら実行
         },
         
-        tooltip: 'Increment',
+        tooltip: 'Increment',//長押しした時に表示されるテキスト
         child: const Icon(Icons.add),
       ), 
     );
