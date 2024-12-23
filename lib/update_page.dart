@@ -39,10 +39,11 @@ class _UpdatePageState extends State<UpdatePage> {
             initialValue: widget.post.text,//Postクラスのtextフィールドを初期値として設定
             onChanged: (value){//文字が入力されるたびに呼ばれる
               updatedWord = value;
+              setState(() {});//画面を更新
             },
           ),
           ElevatedButton(
-            onPressed: (){
+            onPressed: updatedWord.isEmpty ? null : (){//updatedWordが空でない場合のみボタンを押せるようにする
               updateFirebaseData();
               Navigator.pop(context);
             },
