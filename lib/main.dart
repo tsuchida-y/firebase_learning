@@ -59,11 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     //firebaseからデータを取得する
     Future _fetchFirebaseData() async{
-    await FirebaseFirestore.instance
-    .collection("posts")
-    .orderBy('createdAt')
-    .get()
-    .then((event) {//コールバック関数を渡す
+    await FirebaseFirestore.instance.collection("posts").orderBy('createdAt').get().then((event) {//コールバック関数を渡す
       final docs = event.docs;//取得したドキュメントのリスト
       
         setState(() {//画面を更新する
@@ -135,7 +131,7 @@ await FirebaseFirestore.instance.collection("posts").doc(id).delete();//ドキ�
                     fontWeight: FontWeight.bold,//テキストの太さ
                   ),
                 ),
-                Spacer(),//いい感じに間を埋めてくれる
+                const Spacer(),//いい感じに間を埋めてくれる
                 IconButton(
                   onPressed: ()async{
                     await deleteFirebaseData(post.id);
