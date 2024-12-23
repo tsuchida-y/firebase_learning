@@ -87,6 +87,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 
+Future deleteFirebaseData(String id) async{
+await FirebaseFirestore.instance.collection("posts").doc(id).delete();
+}
+
 
 
   @override
@@ -130,6 +134,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontWeight: FontWeight.bold,//テキストの太さ
                   ),
                 ),
+                Spacer(),//いい感じに間を埋めてくれる
+                IconButton(
+                  onPressed: ()async{
+                    await deleteFirebaseData(post.id);
+                    _fetchFirebaseData();
+                  },
+                  icon:const Icon(Icons.delete),
+                )
               ],
             ),)
           )
