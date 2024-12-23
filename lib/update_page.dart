@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class UpdatePage extends StatefulWidget {
   const UpdatePage(this.post,{super.key});
 
-  final Post post;
+  final Post post;//Postクラスのインスタンスを受け取る
 
   @override
   State<UpdatePage> createState() => _UpdatePageState();
@@ -14,16 +14,15 @@ class UpdatePage extends StatefulWidget {
 
 class _UpdatePageState extends State<UpdatePage> {
 
-  String updatedWord = '';
+  String updatedWord = '';//ユーザーが入力した新しい文字列を格納する変数
 
 
   //firebaseにデータを追加する
   Future updateFirebaseData() async{
-    await FirebaseFirestore.instance.collection("posts").doc(widget.post.id).update({
+    await FirebaseFirestore.instance.collection("posts").doc(widget.post.id).update({//ドキュメントIDを使用して、特定のドキュメントを参照
       'name': 'Flutter',
       'text': updatedWord,
       'updatedAt': DateTime.now(),
-      //'createdAt': DateTime.now(),
     });
   }
 
@@ -37,7 +36,7 @@ class _UpdatePageState extends State<UpdatePage> {
       body: Column(
         children:[
           TextFormField(
-            initialValue: widget.post.text,
+            initialValue: widget.post.text,//Postクラスのtextフィールドを初期値として設定
             onChanged: (value){//文字が入力されるたびに呼ばれる
               updatedWord = value;
             },
@@ -47,7 +46,7 @@ class _UpdatePageState extends State<UpdatePage> {
               updateFirebaseData();
               Navigator.pop(context);
             },
-            child: const Text("追加"),
+            child: const Text("更新"),
           )
         ] 
       ),
