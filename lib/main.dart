@@ -86,9 +86,10 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-
+//Firebaseからデータを削除する
+//メソッド
 Future deleteFirebaseData(String id) async{
-await FirebaseFirestore.instance.collection("posts").doc(id).delete();
+await FirebaseFirestore.instance.collection("posts").doc(id).delete();//ドキュメントIDを指定して削除 。引数はいらない
 }
 
 
