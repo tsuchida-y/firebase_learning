@@ -16,8 +16,8 @@ class _AddPageState extends State<AddPage> {
 
   //firebaseにデータを追加する
   Future addFirebaseData() async{
-    await FirebaseFirestore.instance.collection("posts").add({
-      'name': 'Flutter',
+    await FirebaseFirestore.instance.collection("posts").add({//インスタンスを取得しコレクションを指定
+      'name': 'Flutter',//追加するデータはmap型で指定
       'text': newWord,
       'createdAt': DateTime.now(),
     });
@@ -33,7 +33,7 @@ class _AddPageState extends State<AddPage> {
       body: Column(
         children:[
           TextField(
-            onChanged: (value){//文字が入力されるたびに呼ばれる
+            onChanged: (value){//文字が入力されるたびに呼ばれる。valueは入力された文字
               newWord = value;
             },
           ),

@@ -19,7 +19,7 @@ void main() async{
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -49,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List <Post> posts = [];
 
 
-//この画面を開いたらこうするというのを定義。一度だけ実行される 
+  //この画面を開いたらこうするというのを定義。一度だけ実行される 
   @override
   void initState() {
     super.initState();
@@ -57,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 
-//firebaseからデータを取得する
+    //firebaseからデータを取得する
     Future _fetchFirebaseData() async{
     await FirebaseFirestore.instance
     .collection("posts")
